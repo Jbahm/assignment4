@@ -27,6 +27,10 @@ void person::isAtWindow(){
   timeSpent += 1;
 }
 
+bool person::isFinished(){
+  return timeSpent == timeNeeded;
+}
+
 void person::printPerson(){
   cout << "Person: " << endl;
   cout << "Arrived " << arrivalTime << endl;

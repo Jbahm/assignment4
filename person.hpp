@@ -16,6 +16,7 @@ class person
 
     void isWaiting();
     void isAtWindow();
+    bool isFinished();
 
     void printPerson(); //debugging purposes
 };

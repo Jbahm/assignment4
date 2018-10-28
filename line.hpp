@@ -7,16 +7,20 @@ class line
 {
   public:
     line();
-    line(int maxPeople);//populate line in here
-
+    line(int fileName);//populate line in here
 
     int peopleHelped;
+    int totalPeople;
+    int windowCount;
     int ticks;
     person entered[10];
+    bool *windows;
+    person *personAtWindow;
 
-    void addToLine();
+  //void addToLine();
     void moveLine(); //This should be the main loop
-    bool isFinished();
+    int windowsOpen();
+    void clearWindows();
 
     void printLine();//debugging purposes
 
