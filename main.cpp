@@ -1,8 +1,8 @@
 #include <iostream>
-#include "line.hpp"
+#include "GenQueue.h"
+//#include "line.hpp"
 
 
 int main(int argc, char** argv){
-  line l("test.txt");
-  l.printLine();
+  GenQueue<int> a;
 }

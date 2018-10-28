@@ -1,4 +1,5 @@
 #include <iostream>
+#include "ListNode.h"
 
 using namespace std;
 
@@ -18,7 +19,7 @@ class DoublyLinkedList {
     T getFront();
 
     void printList();
-    int deletePos(int pos);
+    void deletePos(int pos);
 
     bool isEmpty();
     unsigned int getSize();
@@ -78,7 +79,7 @@ T DoublyLinkedList<T>::removeFront() {
 
 template <class T>
 T DoublyLinkedList<T>::getFront() {
-  return front->data;
+  return front;
 }
 
 template <class T>

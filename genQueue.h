@@ -1,4 +1,6 @@
 #include <iostream>
+#include "DoublyLinkedList.h"
+#include "ListNode.h"
 using namespace std;
 
 template <class T>
@@ -73,7 +75,7 @@ T GenQueue<T>::dequeue() {
     return temp;
   }
   else {
-    return T();
+    return t();
   }
 }
 
@@ -84,7 +86,7 @@ T GenQueue<T>::vFront() {
 
 template <class T>
 T GenQueue<T>::vBack() {
-  return back->data;
+  return back;
 }
 
 template <class T>
