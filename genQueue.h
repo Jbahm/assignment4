@@ -1,3 +1,8 @@
+#ifndef GenQueue_H
+#define GenQueue_H
+
+
+
 #include <iostream>
 #include "DoublyLinkedList.h"
 #include "ListNode.h"
@@ -75,7 +80,7 @@ T GenQueue<T>::dequeue() {
     return temp;
   }
   else {
-    return t();
+    return T();
   }
 }
 
@@ -86,7 +91,7 @@ T GenQueue<T>::vFront() {
 
 template <class T>
 T GenQueue<T>::vBack() {
-  return back;
+  return back->data;
 }
 
 template <class T>
@@ -112,3 +117,6 @@ template <class T>
 unsigned int GenQueue<T>::getSize() {
   return numElements;
 }
+
+
+#endif

@@ -1,4 +1,8 @@
+#ifndef ListNode_H
+#define ListNode_H
+
 #include <iostream>
+
 
 using namespace std;
 
@@ -9,7 +13,7 @@ class ListNode{
     ListNode(T d);
     ~ListNode();
 
-    int data;
+    T data;
     ListNode<T> *next;
     ListNode<T> *prev;
 };
@@ -31,3 +35,5 @@ ListNode<T>::~ListNode(){
   next=NULL;
   prev=NULL;
 }
+
+#endif

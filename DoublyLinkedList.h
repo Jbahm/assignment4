@@ -1,3 +1,9 @@
+#ifndef DoublyLinkedList_H
+#define DoublyLinkedList_H
+
+
+
+
 #include <iostream>
 #include "ListNode.h"
 
@@ -28,8 +34,8 @@ class DoublyLinkedList {
 template <class T>
 DoublyLinkedList<T>::DoublyLinkedList() {
   size = 0;
-  int front = NULL;
-  int back = NULL;
+  front = NULL;
+  back = NULL;
 }
 
 template <class T>
@@ -125,3 +131,5 @@ template <class T>
 unsigned int DoublyLinkedList<T>::getSize() {
   return size;
 }
+
+#endif
