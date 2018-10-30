@@ -32,6 +32,7 @@ class line
     void updateIdleWindows();
     int findMedian();
     void outputStats();
+    void debugLine();
     void updateWaitTime(GenQueue<person> regLine);
 
     void printLine();//debugging purposes

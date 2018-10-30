@@ -22,7 +22,7 @@ class DoublyLinkedList {
 
     void insertBack(T data);
     T removeFront();
-    T getFront();
+    ListNode<T>* getFront();
 
     void printList();
     void deletePos(int pos);
@@ -45,7 +45,7 @@ DoublyLinkedList<T>::~DoublyLinkedList() {
 
 template <class T>
 void DoublyLinkedList<T>::insertBack(T data) {
-  ListNode<T> *node = new ListNode<T>;
+  ListNode<T> *node = new ListNode<T>(data);
 
    if(size == 0) { //if empty
        front = node;
@@ -84,17 +84,14 @@ T DoublyLinkedList<T>::removeFront() {
 }
 
 template <class T>
-T DoublyLinkedList<T>::getFront() {
+ListNode<T>* DoublyLinkedList<T>::getFront() {
   return front;
 }
 
 template <class T>
 void DoublyLinkedList<T>::printList() {
   ListNode<T> *curr = front;
-  while(true) {
-    if(curr->next == NULL) {
-      break;
-    }
+  while(true){
     cout << curr->data << endl;
     curr = curr->next;
   }

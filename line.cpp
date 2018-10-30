@@ -17,8 +17,7 @@ line::line(string fileName){
   ifstream people;
   string currentLine;
   int arrivalTick = 0;
-  int totalPeople = 0;
-  int longestIdle = 0;
+  totalPeople = 0;
   int counter = 0;
 
   people.open(fileName);
@@ -27,6 +26,7 @@ line::line(string fileName){
   personAtWindow = new person[windowCount];
   windows = new bool[windowCount];
   idleTimes = new int[windowCount];
+  cout << windowCount << endl;
   while(!people.eof()){
     people >> currentLine;
     arrivalTick = stoi(currentLine);
@@ -40,6 +40,7 @@ line::line(string fileName){
     }
   }
   waitTimes = new int[totalPeople];
+  cout << totalPeople << endl;
 }
 
 
@@ -59,6 +60,8 @@ void line::clearWindows(){
         windows[i] = false;
         peopleHelped++;
         waitTimes[peopleHelped] = personAtWindow[i].getWaitTime();
+        cout << "hi" << endl;
+        cout << peopleHelped << endl;
       }
     }
   }
@@ -88,10 +91,9 @@ void line::outputStats(){
   int waitedOverTen = 0;
   averageIdle = averageIdle/timesIdle;
 
-
-
   for(int i = 0; i < totalPeople; i++){
     meanWait += waitTimes[i];
+    cout <<"HERE" << waitTimes[i] << endl;
     if(longestWait < waitTimes[i]){
       longestWait = waitTimes[i];
     }
@@ -115,9 +117,9 @@ void line::outputStats(){
 
 
 
-/*
+
 void line::addToLine(GenQueue<person> regLine){
-  ListNode node = entered.getFront();
+  ListNode<person> *node = entered.getFront();
   while(node->next != NULL){
     person temp = node->data;
     if(temp.getArrivalTick() == ticks){
@@ -126,7 +128,7 @@ void line::addToLine(GenQueue<person> regLine){
     node = node->next;
   }
 }
-*/
+
 
 void line::updateWaitTime(GenQueue<person> regLine){
   GenQueue<person> copy;
@@ -159,7 +161,6 @@ void line::updateIdleWindows(){
       idleTimes[i] = 0;
     }
   }
-  averageIdle = averageIdle/timesIdle;
 }
 
 
@@ -183,4 +184,13 @@ void line::moveLine(){
       ticks++;
   }
   outputStats();
+}
+
+
+
+void line::debugLine(){
+    windows[0] = true;
+    person p(0, 1);
+    personAtWindow[0] = p;
+    clearWindows();
 }
