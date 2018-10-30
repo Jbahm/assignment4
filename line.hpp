@@ -13,8 +13,14 @@ class line
     int peopleHelped;
     int totalPeople;
     int windowCount;
+    int windowsOver5;
+    double averageIdle;
+    int timesIdle;
+    int longestIdle;
     int ticks;
     DoublyLinkedList<person> entered;
+
+    int *idleTimes;
     int *waitTimes;
     bool *windows;
     person *personAtWindow;
@@ -23,6 +29,7 @@ class line
     void moveLine(); //This should be the main loop
     int windowsOpen();
     void clearWindows();
+    void updateIdleWindows();
     int findMedian();
     void outputStats();
     void updateWaitTime(GenQueue<person> regLine);

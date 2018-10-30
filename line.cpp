@@ -18,6 +18,7 @@ line::line(string fileName){
   string currentLine;
   int arrivalTick = 0;
   int totalPeople = 0;
+  int longestIdle = 0;
   int counter = 0;
 
   people.open(fileName);
@@ -25,6 +26,7 @@ line::line(string fileName){
   windowCount = stoi(currentLine);
   personAtWindow = new person[windowCount];
   windows = new bool[windowCount];
+  idleTimes = new int[windowCount];
   while(!people.eof()){
     people >> currentLine;
     arrivalTick = stoi(currentLine);
@@ -80,10 +82,13 @@ int line::findMedian(){
 
 
 void line::outputStats(){
-  int meanWait = 0;
+  double meanWait = 0;
   int medianWait = 0;
   int longestWait = 0;
   int waitedOverTen = 0;
+  averageIdle = averageIdle/timesIdle;
+
+
 
   for(int i = 0; i < totalPeople; i++){
     meanWait += waitTimes[i];
@@ -95,6 +100,16 @@ void line::outputStats(){
     }
     medianWait = findMedian();
   }
+  meanWait = meanWait/totalPeople;
+
+  cout << "The average student wait time is: " << meanWait << " minutes!" << endl;
+  cout << "The median student wait time is: " << medianWait << " minutes!" << endl;
+  cout << "The longest student wait time is: " << longestWait << " minutes!" << endl;
+  cout << waitedOverTen << " students waited over 10 minutes" << endl;
+  cout << "" << endl;
+  cout << "Windows were idle for an average of " << averageIdle << " minutes!" << endl;
+  cout << "The longest window idle time is: " << longestIdle << endl;
+  cout << windowsOver5 << " windows were idle for over 5 minutes" << endl;
 }
 
 
@@ -127,6 +142,28 @@ void line::updateWaitTime(GenQueue<person> regLine){
 
 }
 
+void line::updateIdleWindows(){
+  for(int i = 0; i < windowCount; i++){
+    if(windows[i] == false){
+      idleTimes[i]++;
+     }
+    if(windows[i] == true){
+      if(idleTimes[i] > 5){
+        windowsOver5++;
+      }
+      timesIdle++;
+      averageIdle += idleTimes[i];
+      if(idleTimes[i] > longestIdle){
+        longestIdle = idleTimes[i];
+      }
+      idleTimes[i] = 0;
+    }
+  }
+  averageIdle = averageIdle/timesIdle;
+}
+
+
+
 void line::moveLine(){
     GenQueue<person> regLine;
     while(peopleHelped < totalPeople){
@@ -138,6 +175,7 @@ void line::moveLine(){
         regLine.dequeue();
         personAtWindow[windowsOpen()] = temp;
       }
+      updateIdleWindows();
       updateWaitTime(regLine);
       for(int j = 0; j < windowCount; j++){
         personAtWindow[j].isAtWindow();
