@@ -36,11 +36,10 @@ line::line(string fileName){
       people >> currentLine;
       person p(stoi(currentLine), arrivalTick);
       totalPeople++;
-      entered.insertBack(p);
+      entered.enqueue(p);
     }
   }
   waitTimes = new int[totalPeople];
-  cout << totalPeople << endl;
 }
 
 
@@ -60,7 +59,6 @@ void line::clearWindows(){
         windows[i] = false;
         peopleHelped++;
         waitTimes[peopleHelped] = personAtWindow[i].getWaitTime();
-        cout << "hi" << endl;
         cout << peopleHelped << endl;
       }
     }
@@ -118,14 +116,14 @@ void line::outputStats(){
 
 
 
-void line::addToLine(GenQueue<person> regLine){
-  ListNode<person> *node = entered.getFront();
-  while(node->next != NULL){
-    person temp = node->data;
-    if(temp.getArrivalTick() == ticks){
-      regLine.enqueue(temp);
-    }
-    node = node->next;
+void line::addToLine(){
+  person p = entered.vFront();
+  while(p.getArrivalTick() == ticks){
+    regLine.enqueue(p); ///HERE
+    entered.dequeue();
+    cout << "added" << endl;
+    p.printPerson();
+    p = entered.vFront();
   }
 }
 
@@ -166,9 +164,9 @@ void line::updateIdleWindows(){
 
 
 void line::moveLine(){
-    GenQueue<person> regLine;
     while(peopleHelped < totalPeople){
-      addToLine(regLine);
+      addToLine();
+
       clearWindows();
       while(windowsOpen() != -1){
         windows[windowsOpen()] = true;
@@ -189,8 +187,6 @@ void line::moveLine(){
 
 
 void line::debugLine(){
-    windows[0] = true;
-    person p(0, 1);
-    personAtWindow[0] = p;
-    clearWindows();
+
+
 }

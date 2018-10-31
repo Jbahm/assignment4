@@ -44,7 +44,6 @@ GenQueue<T>::~GenQueue() {
 template <class T>
 void GenQueue<T>::enqueue(T d) {
   ListNode<T> *node = new ListNode<T>(d);
-
   if(numElements == 0) {
       front = node;
   }
@@ -99,7 +98,7 @@ void GenQueue<T>::printQ() {
   ListNode<T> *curr = front;
   while(true) {
     if(curr != NULL) {
-      cout << curr->data << endl;
+      curr->data.printPerson();
       curr = curr->next;
     }
     else {

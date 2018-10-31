@@ -18,14 +18,15 @@ class line
     int timesIdle;
     int longestIdle;
     int ticks;
-    DoublyLinkedList<person> entered;
+    GenQueue<person> entered;
+    GenQueue<person> regLine;
 
     int *idleTimes;
     int *waitTimes;
     bool *windows;
     person *personAtWindow;
 
-    void addToLine(GenQueue<person> regLine);
+    void addToLine();
     void moveLine(); //This should be the main loop
     int windowsOpen();
     void clearWindows();
