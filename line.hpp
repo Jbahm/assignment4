@@ -27,6 +27,7 @@ class line
     person *personAtWindow;
 
     void addToLine();
+    bool windowsAreEmpty();
     void moveLine(); //This should be the main loop
     int windowsOpen();
     void clearWindows();

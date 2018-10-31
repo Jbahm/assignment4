@@ -6,13 +6,13 @@
 using namespace std;
 
 line::line(){
-  int peopleHelped = 0;
-  int ticks = 0;
+  peopleHelped = 0;
+  ticks = 0;
 }
 
 
 line::line(string fileName){
-  ticks = 0;
+  ticks = 1;
   peopleHelped = 0;
   ifstream people;
   string currentLine;
@@ -40,6 +40,7 @@ line::line(string fileName){
     }
   }
   waitTimes = new int[totalPeople];
+
 }
 
 
@@ -59,7 +60,6 @@ void line::clearWindows(){
         windows[i] = false;
         peopleHelped++;
         waitTimes[peopleHelped] = personAtWindow[i].getWaitTime();
-        cout << peopleHelped << endl;
       }
     }
   }
@@ -119,10 +119,8 @@ void line::outputStats(){
 void line::addToLine(){
   person p = entered.vFront();
   while(p.getArrivalTick() == ticks){
-    regLine.enqueue(p); ///HERE
+    regLine.enqueue(p);
     entered.dequeue();
-    cout << "added" << endl;
-    p.printPerson();
     p = entered.vFront();
   }
 }
@@ -161,27 +159,48 @@ void line::updateIdleWindows(){
   }
 }
 
+bool line::windowsAreEmpty(){
+  for(int i = 0; i < windowCount; i++){
+    if(windows[i] == true){
+      return false;
+    }
+  }
+  return true;
+}
 
 
 void line::moveLine(){
-    while(peopleHelped < totalPeople){
-      addToLine();
-
+  while(true){
+      if(!entered.isEmpty()){
+        addToLine();
+      }
       clearWindows();
-      while(windowsOpen() != -1){
+      if(ticks == 3){
+        regLine.printQ();
+      }
+      while(windowsOpen() != -1 && regLine.isEmpty() == false){
         windows[windowsOpen()] = true;
         person temp = regLine.vFront();
+        temp.printPerson();
         regLine.dequeue();
-        personAtWindow[windowsOpen()] = temp;
+        personAtWindow[windowsOpen()-1] = temp;
       }
+
+
+
       updateIdleWindows();
-      updateWaitTime(regLine);
+      if(regLine.isEmpty() == false){
+        updateWaitTime(regLine);
+      }
+
       for(int j = 0; j < windowCount; j++){
         personAtWindow[j].isAtWindow();
       }
       ticks++;
+      cout << ticks << endl;
   }
-  outputStats();
+//  outputStats();
+
 }
 
 
