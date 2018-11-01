@@ -12,7 +12,7 @@ line::line(){
 
 
 line::line(string fileName){
-  ticks = 1;
+  ticks = 0;
   peopleHelped = 0;
   ifstream people;
   string currentLine;
@@ -26,7 +26,6 @@ line::line(string fileName){
   personAtWindow = new person[windowCount];
   windows = new bool[windowCount];
   idleTimes = new int[windowCount];
-  cout << windowCount << endl;
   while(!people.eof()){
     people >> currentLine;
     arrivalTick = stoi(currentLine);
@@ -60,6 +59,8 @@ void line::clearWindows(){
         windows[i] = false;
         peopleHelped++;
         waitTimes[peopleHelped] = personAtWindow[i].getWaitTime();
+        cout << "Person at Window " << i << " is finished!" << endl;
+
       }
     }
   }
@@ -126,11 +127,14 @@ void line::addToLine(){
 }
 
 
-void line::updateWaitTime(GenQueue<person> regLine){
+void line::updateWaitTime(){
   GenQueue<person> copy;
   while(!regLine.isEmpty()){
+    person temp1 = regLine.vFront();
     regLine.dequeue();
+    copy.enqueue(temp1);
   }
+
   while(!copy.isEmpty()){
     person temp = copy.vFront();
     copy.dequeue();
@@ -170,38 +174,55 @@ bool line::windowsAreEmpty(){
 
 
 void line::moveLine(){
-  while(true){
-      if(!entered.isEmpty()){
-        addToLine();
-      }
+    while(ticks < 6){///FIX ME
+        if(entered.isEmpty() == false){
+          addToLine();
+        }
+
+
+
+      cout << "===========" << endl;
+      cout << "Tick: " << ticks << endl;
+      cout << "Entered" << endl;
+      entered.printQ();
+      cout << "--------------" << endl;
+      cout << "Line" << endl;
+      regLine.printQ();
+      cout << "==============" << endl;
+
       clearWindows();
-      if(ticks == 3){
-        regLine.printQ();
-      }
-      while(windowsOpen() != -1 && regLine.isEmpty() == false){
-        windows[windowsOpen()] = true;
+
+      while(windowsOpen() != -1 && !regLine.isEmpty()){
         person temp = regLine.vFront();
-        temp.printPerson();
+        int openWindow = windowsOpen();
+        windows[openWindow] = true;
+        personAtWindow[openWindow] = temp;
         regLine.dequeue();
-        personAtWindow[windowsOpen()-1] = temp;
+        cout << "++++" << endl;
+        cout << "Is at the window: " << endl;
+        temp.printPerson();
+        cout << "++++" << endl;
+      }
+      for(int i = 0; i < windowCount; i++){
+        personAtWindow[i].isAtWindow();
+      }
+      updateWaitTime();
+      if(ticks == 5){
+        person test = regLine.vFront();
+        cout << test.getWaitTime() << endl;
+
       }
 
 
 
-      updateIdleWindows();
-      if(regLine.isEmpty() == false){
-        updateWaitTime(regLine);
-      }
 
-      for(int j = 0; j < windowCount; j++){
-        personAtWindow[j].isAtWindow();
-      }
       ticks++;
-      cout << ticks << endl;
-  }
-//  outputStats();
+    }
+
 
 }
+
+
 
 
 

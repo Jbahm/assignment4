@@ -40,8 +40,8 @@ int person::getWaitTime(){
 }
 
 void person::printPerson(){
-  cout << "Person: " << endl;
+  cout << "" << endl;
+  cout << "Person" << endl;
   cout << "Arrived " << arrivalTime << endl;
   cout << "Needs " << timeNeeded << endl;
-  cout << "" << endl;
 }

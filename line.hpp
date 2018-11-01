@@ -35,7 +35,7 @@ class line
     int findMedian();
     void outputStats();
     void debugLine();
-    void updateWaitTime(GenQueue<person> regLine);
+    void updateWaitTime();
 
     void printLine();//debugging purposes
 

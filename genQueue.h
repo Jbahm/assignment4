@@ -58,6 +58,7 @@ void GenQueue<T>::enqueue(T d) {
 
 template <class T>
 T GenQueue<T>::dequeue() {
+
   if(!isEmpty()) {
     ListNode<T> *node = front;
 
@@ -85,16 +86,23 @@ T GenQueue<T>::dequeue() {
 
 template <class T>
 T GenQueue<T>::vFront() {
+  if(isEmpty() == false){
   return front->data;
+  }
+  return T();
 }
 
 template <class T>
 T GenQueue<T>::vBack() {
+  if(isEmpty() == false){
   return back->data;
+  }
+  return T();
 }
 
 template <class T>
 void GenQueue<T>::printQ() {
+  if(isEmpty() == false){
   ListNode<T> *curr = front;
   while(true) {
     if(curr != NULL) {
@@ -105,6 +113,9 @@ void GenQueue<T>::printQ() {
       break;
     }
   }
+}else{
+  cout << "Queue is empty!" << endl;
+}
 }
 
 template <class T>
