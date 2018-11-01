@@ -5,5 +5,7 @@
 
 int main(int argc, char** argv){
   line L("test.txt");
-  L.moveLine();
+  L.findMedian();
+//  L.moveLine();
+  L.outputStats();
 }

@@ -18,11 +18,12 @@ class ListNode{
     ListNode<T> *prev;
 };
 
+//constructor
 template<class T>
 ListNode<T>::ListNode(){
 
 }
-
+//constructor 
 template<class T>
 ListNode<T>::ListNode(T d){
   data = d;
@@ -30,6 +31,7 @@ ListNode<T>::ListNode(T d){
   prev=NULL;
 }
 
+//deconstructor
 template<class T>
 ListNode<T>::~ListNode(){
   next=NULL;
