@@ -2,6 +2,7 @@
 #include <fstream>
 #include "line.hpp"
 #include "GenQueue.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -60,65 +61,72 @@ void line::clearWindows(){
     if(windows[i] == true){
       if(personAtWindow[i].isFinished()){
         windows[i] = false;
+        person temp = personAtWindow[i];
+        waitTimes[peopleHelped] = temp.getWaitTime();
         peopleHelped++; //increments the number of people helped
-        waitTimes[peopleHelped] = personAtWindow[i].getWaitTime();
-        cout << "Person at Window " << i << " is finished!" << endl;
       }
     }
   }
 }
 
 //finds the median wait time of the students
-int line::findMedian(){
-  for(int i = 0; i < totalPeople; i++){
-    waitTimes[i].vFront();
-    }
+double line::findMedian(){
+  sort(waitTimes, waitTimes + totalPeople-1);
   if((totalPeople%2) ==1){ //if odd number of elements, return the middle
-    return waitTimes[(totalPeople/2)+1];
+    return waitTimes[(totalPeople/2)];
   }
   else{ //if even number of elements, find the average of the middle two
-    int average = (waitTimes[(totalPeople/2)] + waitTimes[(totalPeople/2) + 1])/2;
+    int v1 = totalPeople/2;
+    int v2 = (totalPeople/2)-1;
+    double average = (waitTimes[v1]+waitTimes[v2])/2;
     return average;
   }
 }
-/*if(waitTimes[i] > waitTimes[i+1]){
-  int temp = waitTimes[i];
-  waitTimes[i] = waitTimes[i+1];
-  waitTimes[i+1] = temp;*/
 
 //outputs the stats of the studnet times and window times
 void line::outputStats(){
   double meanWait = 0;
   int medianWait = 0;
-  averageIdle =
-  /*int longestWait = 0;
+  int longestWait = 0;
+  double averageIdle = 0;
+  double longestIdle = 0;
   int waitedOverTen = 0;
-   averageIdle/timesIdle;
+  int idleOverFive = 0;
+
 
   for(int i = 0; i < totalPeople; i++){
     meanWait += waitTimes[i];
-    cout <<"HERE" << waitTimes[i] << endl;
     if(longestWait < waitTimes[i]){
       longestWait = waitTimes[i];
     }
     if(waitTimes[i] > 10){
       waitedOverTen++;
-    }*/
-    medianWait = findMedian();
-  //}
-    //meanWait = meanWait/totalPeople;
+    }
+  }
 
+  for(int j = 0; j < windowCount; j++){
+    averageIdle += idleTimes[j];
+    if(longestIdle < idleTimes[j]){
+      longestIdle = idleTimes[j];
+    }
+    if(idleTimes[j] > 5){
+      idleOverFive++;
+    }
+  }
+  meanWait = meanWait/totalPeople;
+  medianWait = findMedian();
+  averageIdle = averageIdle/windowCount;
   cout << "The average student wait time is: " << meanWait << " minutes!" << endl;
   cout << "The median student wait time is: " << medianWait << " minutes!" << endl;
-  /*cout << "The longest student wait time is: " << longestWait << " minutes!" << endl;
-  cout << waitedOverTen << " students waited over 10 minutes" << endl;
+  cout << "The longest student wait time is: " << longestWait << " minutes!" << endl;
+  cout << waitedOverTen << " student(s) waited over 10 minutes" << endl;
   cout << "" << endl;
   cout << "Windows were idle for an average of " << averageIdle << " minutes!" << endl;
   cout << "The longest window idle time is: " << longestIdle << endl;
-  cout << windowsOver5 << " windows were idle for over 5 minutes" << endl;*/
+  cout << idleOverFive << " windows were idle for over 5 minutes" << endl;
 }
 
-//
+//adds students that arrive at specific tick mark
 void line::addToLine(){
   person p = entered.vFront();
   while(p.getArrivalTick() == ticks){
@@ -152,19 +160,7 @@ void line::updateIdleWindows(){
     if(windows[i] == false){
       idleTimes[i]++;
      }
-    if(windows[i] == true){ //finds the number of windows idle for over 5 min
-      if(idleTimes[i] > 5){
-        windowsOver5++;
-      }
-      timesIdle++;
-      averageIdle += idleTimes[i];
-
-      if(idleTimes[i] > longestIdle){
-        longestIdle = idleTimes[i];
-      }
-      idleTimes[i] = 0;
-    }
-  }
+   }
 }
 
 //checks to see if there are any empty windows
@@ -179,20 +175,10 @@ bool line::windowsAreEmpty(){
 
 
 void line::moveLine(){
-    while(ticks < 6){///FIX ME
+    while(!entered.isEmpty()|| !regLine.isEmpty() || !windowsAreEmpty()){///FIX ME
         if(entered.isEmpty() == false){
           addToLine();
         }
-
-      cout << "===========" << endl;
-      cout << "Tick: " << ticks << endl;
-      cout << "Entered" << endl;
-      entered.printQ();
-      cout << "--------------" << endl;
-      cout << "Line" << endl;
-      regLine.printQ();
-      cout << "==============" << endl;
-
       clearWindows();
 
       while(windowsOpen() != -1 && !regLine.isEmpty()){
@@ -201,24 +187,17 @@ void line::moveLine(){
         windows[openWindow] = true;
         personAtWindow[openWindow] = temp;
         regLine.dequeue();
-        cout << "++++" << endl;
-        cout << "Is at the window: " << endl;
-        temp.printPerson();
-        cout << "++++" << endl;
       }
       for(int i = 0; i < windowCount; i++){
         personAtWindow[i].isAtWindow();
       }
       updateWaitTime();
+      updateIdleWindows();
       if(ticks == 5){
         person test = regLine.vFront();
-        cout << test.getWaitTime() << endl;
 
       }
       ticks++;
     }
-}
-void line::debugLine(){
-
-
+    outputStats();
 }

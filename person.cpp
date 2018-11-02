@@ -34,15 +34,20 @@ bool person::isFinished(){
   return timeSpent == timeNeeded;
 }
 
-//returns the arrival time of a student 
+//returns the arrival time of a st
 int person::getArrivalTick(){
   return arrivalTime;
 }
 
 //returns the students wait time
 int person::getWaitTime(){
-  return timeWaited;
-}
+  if(timeWaited == 0){
+    return 0;
+  }else{
+    return timeWaited-1;
+  }
+  }
+
 
 //print the student stats
 void person::printPerson(){

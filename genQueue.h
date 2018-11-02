@@ -1,8 +1,6 @@
 #ifndef GenQueue_H
 #define GenQueue_H
 
-
-
 #include <iostream>
 #include "DoublyLinkedList.h"
 #include "ListNode.h"
@@ -127,7 +125,7 @@ bool GenQueue<T>::isEmpty() {
   return (numElements == 0);
 }
 
-//get the size of the queue 
+//get the size of the queue
 template <class T>
 unsigned int GenQueue<T>::getSize() {
   return numElements;

@@ -13,10 +13,6 @@ class line
     int peopleHelped;
     int totalPeople;
     int windowCount;
-    int windowsOver5;
-    double averageIdle;
-    int timesIdle;
-    int longestIdle;
     int ticks;
     GenQueue<person> entered;
     GenQueue<person> regLine;
@@ -32,11 +28,9 @@ class line
     int windowsOpen();
     void clearWindows();
     void updateIdleWindows();
-    int findMedian();
+    double findMedian();
     void outputStats();
-    void debugLine();
     void updateWaitTime();
-
     void printLine();//debugging purposes
 
 };

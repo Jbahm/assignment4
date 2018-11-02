@@ -131,5 +131,4 @@ template <class T>
 unsigned int DoublyLinkedList<T>::getSize() {
   return size;
 }
-
 #endif

@@ -23,7 +23,7 @@ template<class T>
 ListNode<T>::ListNode(){
 
 }
-//constructor 
+//constructor
 template<class T>
 ListNode<T>::ListNode(T d){
   data = d;
@@ -37,5 +37,4 @@ ListNode<T>::~ListNode(){
   next=NULL;
   prev=NULL;
 }
-
 #endif
