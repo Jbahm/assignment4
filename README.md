@@ -1,4 +1,4 @@
-# assignment4 
+## Assignment 4
 Jonathan Bahm    bahm@chapman.edu 
 Raha Pirzadeh    pirzadeh@chapman.edu
 
